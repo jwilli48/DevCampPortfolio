@@ -9,7 +9,7 @@ class PortfoliosController < ApplicationController
   end
 
   def create
-    @portfolio_items = Portfolio.new(params.require(:portfolio).permit(:title, :subtitle, :body, technologies_attributes: [:name]))
+    @portfolio_items = Portfolio.new(portfolios_params)
 
     respond_to do |format|
       if @portfolio_items.save
@@ -27,7 +27,7 @@ class PortfoliosController < ApplicationController
   def update
     @portfolio_items = Portfolio.find(params[:id])
     respond_to do |format|
-      if @portfolio_items.update(params.require(:portfolio).permit(:title, :subtitle, :body))
+      if @portfolio_items.update(portfolios_params)
         format.html { redirect_to portfolios_path, notice: 'Portfolio Items were successfully updated.' }
       else
         format.html { render :edit }
@@ -49,9 +49,13 @@ class PortfoliosController < ApplicationController
       format.html { redirect_to portfolios_url, notice: 'Item was successfully deleted.' }
     end
   end
-  
+
   def angular
     @angular_portfolio_items = Portfolio.angular
   end
-
+  
+private
+  def portfolios_params
+    params.require(:portfolio).permit(:title, :subtitle, :body)
+  end
 end
