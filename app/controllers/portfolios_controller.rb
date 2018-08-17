@@ -1,5 +1,5 @@
 class PortfoliosController < ApplicationController
-
+  before_action :edit_portfolio_path, only: [:edit, :update, :show, :destroy]
   layout 'portfolio'
 
   def index
